@@ -6,9 +6,66 @@ const App = () => {
   const [loading, setLoading] = useState(false);
   const [playlistLink, setPlaylistLink] = useState("");
 
-  const handleGeneratePlaylist = () => {
+  const handleGeneratePlaylist = async () => {
     setLoading(true);
-    // Simulate playlist generation delay
+
+    const api_key = import.meta.env.env.REACT_APP_GOOGLE_API_KEY;
+
+    const response = await fetch(
+      `https://language.googleapis.com/v1/documents:analyzeSentiment?key=${api_key}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          document: {
+            type: 'PLAIN_TEXT',
+            content: mood
+          },
+          encodingType: 'UTF8'
+        })
+      }
+    );
+
+    const data = await response.json();
+    const sentimentScore = data.documentSentiment.score;
+    const sentimentMagnitude = data.documentSentiment.magnitude; // The intensity of the sentiment
+
+    // Initialize an empty array to hold Spotify-friendly search keywords
+    let spotifyKeywords = [];
+
+    // Map moods to Spotify-friendly terms
+    if (sentimentScore > 0.5) {
+      spotifyKeywords.push('happy', 'upbeat', 'energetic');
+    } else if (sentimentScore < 0) {
+      spotifyKeywords.push('sad', 'melancholy', 'low-energy');
+    } else {
+      spotifyKeywords.push('neutral', 'calm');
+    }
+
+    // Additional logic for handling more nuanced emotions
+    if (sentimentMagnitude > 2.0) {
+      spotifyKeywords.push('intense', 'powerful');
+    } else if (sentimentMagnitude < 0.5) {
+      spotifyKeywords.push('chill', 'relaxing');
+    }
+
+    // Add custom categories based on certain keywords in the description
+    if (mood.toLowerCase().includes('anxious')) {
+      spotifyKeywords.push('ambient', 'calm');
+    }
+    if (mood.toLowerCase().includes('energetic')) {
+      spotifyKeywords.push('workout', 'upbeat');
+    }
+    if (mood.toLowerCase().includes('stressed')) {
+      spotifyKeywords.push('calming', 'focus');
+    }
+
+    console.log(`Spotify Search Keywords: ${spotifyKeywords.join(', ')}`);
+
+
+
     setTimeout(() => {
       setPlaylistLink("https://open.spotify.com/playlist/sample-link");
       setLoading(false);
