@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaMusic, FaSadTear, FaSmile } from "react-icons/fa"; // Importing icons
 
 const App = () => {
@@ -9,67 +10,61 @@ const App = () => {
   const handleGeneratePlaylist = async () => {
     setLoading(true);
 
-    const api_key = import.meta.env.env.REACT_APP_GOOGLE_API_KEY;
+    const api_key = import.meta.env.VITE_API_KEY;
 
-    const response = await fetch(
-      `https://language.googleapis.com/v1/documents:analyzeSentiment?key=${api_key}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          document: {
-            type: 'PLAIN_TEXT',
-            content: mood
-          },
-          encodingType: 'UTF8'
-        })
-      }
-    );
 
-    const data = await response.json();
-    const sentimentScore = data.documentSentiment.score;
-    const sentimentMagnitude = data.documentSentiment.magnitude; // The intensity of the sentiment
+    const genAI = new GoogleGenerativeAI(api_key);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Initialize an empty array to hold Spotify-friendly search keywords
-    let spotifyKeywords = [];
+    const prompt = `Extract the user's mood, artist names, and song titles into one short string: mood, artist, song, User Input: ${mood}. answer must be not be too long and only contain keywords, recommend a popular artist and song title if not provided`;
 
-    // Map moods to Spotify-friendly terms
-    if (sentimentScore > 0.5) {
-      spotifyKeywords.push('happy', 'upbeat', 'energetic');
-    } else if (sentimentScore < 0) {
-      spotifyKeywords.push('sad', 'melancholy', 'low-energy');
-    } else {
-      spotifyKeywords.push('neutral', 'calm');
-    }
+    const response = await model.generateContent(prompt);
+    console.log(response.response.text());
+  
+    
+    console.log(response);
+    setLoading(false);
+    // const sentimentScore = data.documentSentiment.score;
+    // const sentimentMagnitude = data.documentSentiment.magnitude; // The intensity of the sentiment
 
-    // Additional logic for handling more nuanced emotions
-    if (sentimentMagnitude > 2.0) {
-      spotifyKeywords.push('intense', 'powerful');
-    } else if (sentimentMagnitude < 0.5) {
-      spotifyKeywords.push('chill', 'relaxing');
-    }
+    // // Initialize an empty array to hold Spotify-friendly search keywords
+    // let spotifyKeywords = [];
 
-    // Add custom categories based on certain keywords in the description
-    if (mood.toLowerCase().includes('anxious')) {
-      spotifyKeywords.push('ambient', 'calm');
-    }
-    if (mood.toLowerCase().includes('energetic')) {
-      spotifyKeywords.push('workout', 'upbeat');
-    }
-    if (mood.toLowerCase().includes('stressed')) {
-      spotifyKeywords.push('calming', 'focus');
-    }
+    // // Map moods to Spotify-friendly terms
+    // if (sentimentScore > 0.5) {
+    //   spotifyKeywords.push('happy', 'upbeat', 'energetic');
+    // } else if (sentimentScore < 0) {
+    //   spotifyKeywords.push('sad', 'melancholy', 'low-energy');
+    // } else {
+    //   spotifyKeywords.push('neutral', 'calm');
+    // }
 
-    console.log(`Spotify Search Keywords: ${spotifyKeywords.join(', ')}`);
+    // // Additional logic for handling more nuanced emotions
+    // if (sentimentMagnitude > 2.0) {
+    //   spotifyKeywords.push('intense', 'powerful');
+    // } else if (sentimentMagnitude < 0.5) {
+    //   spotifyKeywords.push('chill', 'relaxing');
+    // }
+
+    // // Add custom categories based on certain keywords in the description
+    // if (mood.toLowerCase().includes('anxious')) {
+    //   spotifyKeywords.push('ambient', 'calm');
+    // }
+    // if (mood.toLowerCase().includes('energetic')) {
+    //   spotifyKeywords.push('workout', 'upbeat');
+    // }
+    // if (mood.toLowerCase().includes('stressed')) {
+    //   spotifyKeywords.push('calming', 'focus');
+    // }
+
+    // console.log(`Spotify Search Keywords: ${spotifyKeywords.join(', ')}`);
 
 
 
-    setTimeout(() => {
-      setPlaylistLink("https://open.spotify.com/playlist/sample-link");
-      setLoading(false);
-    }, 2000);
+    // setTimeout(() => {
+    //   setPlaylistLink("https://open.spotify.com/playlist/sample-link");
+    //   setLoading(false);
+    // }, 2000);
   };
 
   return (
