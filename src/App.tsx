@@ -16,10 +16,15 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 p-6">
-      <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 p-6 relative">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="loader"></div>
+        </div>
+      )}
+      <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full z-10">
         <h1 className="text-4xl font-bold text-center mb-4 text-gray-800">
-          Moodify
+          Moodmix
         </h1>
         <p className="text-gray-600 text-center mb-4">
           Describe your mood and let AI generate the perfect playlist for you.
@@ -64,6 +69,8 @@ const App = () => {
       <footer className="mt-8 text-gray-600 text-sm text-center">
         <p>Made with ❤️ by Moodify Team</p>
       </footer>
+
+    
     </div>
   );
 };
