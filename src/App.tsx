@@ -3,10 +3,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaMusic, FaSadTear, FaSmile } from "react-icons/fa"; // Importing icons
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
-import SpotifyWebApi  from 'spotify-web-api-js'
 
 const App = () => {
-  const spotifyApi = new SpotifyWebApi();
   const [mood, setMood] = useState("");
   const [loading, setLoading] = useState(false);
   const [playlistLink, setPlaylistLink] = useState("");
@@ -29,15 +27,20 @@ const App = () => {
   ];
 
   const getTokenFromUrl = () => {
-    return window.location.hash
+    const tokenInfo = window.location.hash
       .substring(1)
       .split("&")
-      .reduce((initial, item) => {
+      .reduce((initial:any, item:any) => {
         let parts = item.split("=");
         initial[parts[0]] = decodeURIComponent(parts[1]);
         return initial;
       }, {});
-  };
+
+    const token = tokenInfo.access_token;
+    if (token) {
+        setToken(token); 
+    }
+};
 
   const searchSongs = async (keywords:string) => {
     const response = await fetch(`https://api.spotify.com/v1/search?q=${keywords}&type=track`, {
@@ -103,18 +106,9 @@ const App = () => {
   }, [setSpotifyRedirectUrl, setToken, clientId, redirectUri, authEndpoint]);
 
   useEffect(() => {
-    if(Token == null){
-      console.log("is null");
+    if(localStorage.getItem("token") == null){
       try {
-        const hash:any = getTokenFromUrl();
-        window.location.hash = "";
-        const _token = hash.access_token;
-
-        if (_token) {
-          setToken(_token);
-          spotifyApi.setAccessToken(_token);
-        }
-
+        getTokenFromUrl();
         getUserId();
       } catch (error) {
         
