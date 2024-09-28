@@ -105,6 +105,7 @@ const App = () => {
     } catch (error) {
       toast.error("Error creating paylist, you must be logged in.");
       setIsLoginDiv(true);
+      setLoading(false);
     }
   };
 
