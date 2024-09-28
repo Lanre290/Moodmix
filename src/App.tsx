@@ -233,7 +233,7 @@ const App = () => {
               href={playlistLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline mt-2 block mx-auto text-center"
+              className="text-blue-600 hover:underline mt-2 block mx-auto text-center my-2 text-xl"
             >
               {playlistName}
             </a>
