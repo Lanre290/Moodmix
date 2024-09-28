@@ -127,10 +127,12 @@ const App = () => {
   }, [setSpotifyRedirectUrl, setToken, clientId, redirectUri, authEndpoint]);
 
   useEffect(() => {
-    try {
+if(localStorage.getItem("token") == null){
+try {
       getTokenFromUrl();
       getUserId();
     } catch (error) {}
+}
   }, []);
 
   const handleGeneratePlaylist = async () => {
