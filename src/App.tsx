@@ -202,7 +202,6 @@ const App = () => {
             <a
               href={SpotifyRedirectUrl}
               className="flex flex-row  items-center gap-x-2 p-3 border border-gray-400 rounded-2xl hover:bg-gray-200"
-              target="_blank"
             >
               <img src={spotifyLogo} alt="spotify-logo" className="w-12 h-12" />
               LOGIN WITH SPOTIFY
