@@ -42,7 +42,7 @@ const App = () => {
     return token
 };
 
-  const searchSongs = async (keywords:string) => {
+  const searchSongs = async (keywords:string, playlistName:string) => {
     try {
       const response = await fetch(`https://api.spotify.com/v1/search?q=${keywords}&type=track`, {
         method: 'GET',
@@ -147,7 +147,7 @@ const App = () => {
       console.log(keywords, name);
       setPlaylistName(name);
 
-      searchSongs(keywords);
+      searchSongs(keywords, name);
       // const sentimentMagnitude = data.documentSentiment.magnitude; // The intensity of the sentiment
 
       // // Initialize an empty array to hold Spotify-friendly search keywords
