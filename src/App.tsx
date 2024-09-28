@@ -67,6 +67,7 @@ const App = () => {
   
       const playlistData = await createPlaylistResponse.json();
       const playlistId = playlistData.id;
+      console.log("playlist data: ", playlistData);
   
       // Now add tracks to the newly created playlist
       const trackUris = songs.map((song:any) => song.uri); // Get the URIs of the songs
@@ -134,7 +135,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Extract the user's mood, artist names, and song titles into one short string: test:[mood, artist, song], User Input: ${mood}. answer must be not be too long and only contain keywords, recommend a popular artist and song title if not provided`;
+      const prompt = `Extract the user's mood, artist names, and song titles into one string that has enough keywords to create a playlist. use your discretion where necessary. User Input: ${mood}. answer must be not be too long and only contain keywords, recommend a popular artist and song title if not provided`;
 
       const response = await model.generateContent(prompt);
       const prompt_2 = `a song playlist has been created fro a user based on their moods: ${mood}, suggest a playlist name in just one string.`;
