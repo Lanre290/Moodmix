@@ -196,7 +196,7 @@ const App = () => {
         <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="w-11/12 md:w-1/4 rounded-2xl bg-gray-50 p-5">
             <h1 className="text-gray-900 text-center my-3 text-3xl">
-              Login to Spotify
+              Login to Moodmix
             </h1>
             <a
               href={SpotifyRedirectUrl}
