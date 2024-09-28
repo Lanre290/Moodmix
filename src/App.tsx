@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { FaMusic, FaSadTear, FaSmile } from "react-icons/fa"; // Importing icons
+import { FaMusic, FaSadTear, FaSmile } from "react-icons/fa";
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
 
@@ -83,8 +83,7 @@ const App = () => {
       const playlistId = playlistData.id;
       // console.log("playlist data: ", playlistData);
 
-      // Now add tracks to the newly created playlist
-      const trackUris = songs.map((song: any) => song.uri); // Get the URIs of the songs
+      const trackUris = songs.map((song: any) => song.uri); 
 
       fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
         method: "POST",
@@ -149,7 +148,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Extract the user's mood, artist names, and song titles into one string that has enough keywords to create a playlist. User Input: ${mood}.`;
+      const prompt = `Extract every mood or feeling, artist name and song title from user input into one string that has enough keywords to create a playlist. User Input: ${mood}.  Bring out every keyword as possible!!!`;
 
       const response = await model.generateContent(prompt);
 
