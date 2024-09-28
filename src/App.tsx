@@ -90,6 +90,7 @@ const App = () => {
         Authorization: `Bearer ${Token}`,
       },
     });
+    console.log("place 2: ", Token);
     const data = await response.json();
     setUserId(data.id);
   }
