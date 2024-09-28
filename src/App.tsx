@@ -10,8 +10,9 @@ const App = () => {
   const [playlistLink, setPlaylistLink] = useState("");
   const [playlistName, setPlaylistName] = useState("");
   const [SpotifyRedirectUrl, setSpotifyRedirectUrl] = useState("");
-  const [Token, setToken] = useState<string | null| any>("");
+  const [Token, setToken] = useState<string | null | any>("");
   const [UserId, setUserId] = useState<any>("");
+  const [ShowPlaylistDiv, setShowPlaylistDiv] = useState(true);
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
@@ -30,68 +31,83 @@ const App = () => {
     const tokenInfo = window.location.hash
       .substring(1)
       .split("&")
-      .reduce((initial:any, item:any) => {
+      .reduce((initial: any, item: any) => {
         let parts = item.split("=");
         initial[parts[0]] = decodeURIComponent(parts[1]);
         return initial;
       }, {});
 
     const token = tokenInfo.access_token;
-    setToken(token); 
+    setToken(token);
     console.log(token);
-    return token
-};
+    return token;
+  };
 
-  const searchSongs = async (keywords:string, playlistName:string) => {
+  const searchSongs = async (keywords: string, playlistName: string) => {
     try {
-      const response = await fetch(`https://api.spotify.com/v1/search?q=${keywords}&type=track`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
-        },
-      });
+      setPlaylistName(playlistName);
+      const response = await fetch(
+        `https://api.spotify.com/v1/search?q=${keywords}&type=track`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${
+              Token.length > 0 ? Token : getTokenFromUrl()
+            }`,
+          },
+        }
+      );
       const data = await response.json();
       let songs = data.tracks.items;
-  
-      const createPlaylistResponse = await fetch(`https://api.spotify.com/v1/users/${UserId}/playlists`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: playlistName,
-          public: true,
-        }),
-      });
-  
+
+      const createPlaylistResponse = await fetch(
+        `https://api.spotify.com/v1/users/${UserId}/playlists`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${
+              Token.length > 0 ? Token : getTokenFromUrl()
+            }`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: playlistName,
+            public: true,
+          }),
+        }
+      );
+
       const playlistData = await createPlaylistResponse.json();
       const playlistId = playlistData.id;
       console.log("playlist data: ", playlistData);
-  
+
       // Now add tracks to the newly created playlist
-      const trackUris = songs.map((song:any) => song.uri); // Get the URIs of the songs
-  
-      let createPlayListResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-        method: 'POST',
+      const trackUris = songs.map((song: any) => song.uri); // Get the URIs of the songs
+
+      fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${
+            Token.length > 0 ? Token : getTokenFromUrl()
+          }`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ uris: trackUris }),
       });
-  
-      console.log(await createPlayListResponse.json());
-  
+
+      // let createPlayListResponseRes = await createPlayListResponse.json();
+
+      setPlaylistLink(playlistData.external_urls.spotify);
+      setShowPlaylistDiv(true);
       setLoading(false);
     } catch (error) {
-      toast.error('Error creating paylist.')
+      toast.error("Error creating paylist.");
     }
-  }
+  };
 
   const getUserId = async () => {
-    const response = await fetch('https://api.spotify.com/v1/me', {
-      method: 'GET',
+    const response = await fetch("https://api.spotify.com/v1/me", {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
       },
@@ -99,8 +115,7 @@ const App = () => {
     console.log("place 2: ", Token);
     const data = await response.json();
     setUserId(data.id);
-  }
-
+  };
 
   useEffect(() => {
     setSpotifyRedirectUrl(
@@ -112,13 +127,11 @@ const App = () => {
   }, [setSpotifyRedirectUrl, setToken, clientId, redirectUri, authEndpoint]);
 
   useEffect(() => {
-    if(localStorage.getItem("token") == null){
+    if (localStorage.getItem("token") == null) {
       try {
         getTokenFromUrl();
         getUserId();
-      } catch (error) {
-        
-      }
+      } catch (error) {}
     }
   }, []);
 
@@ -209,6 +222,32 @@ const App = () => {
           </div>
         </div>
       )}
+      {ShowPlaylistDiv == true && (
+        <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="w-11/12 md:w-1/4 rounded-2xl bg-gray-50 p-5 flex flex-col justify-center items-center">
+            <p className="text-gray-900 text-center my-3 text-3xl">
+              Your playlist is ready!
+            </p>
+            <a
+              href={playlistLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline mt-2 block mx-auto text-center"
+            >
+              {playlistName}
+            </a>
+
+            <button
+              className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
+              onClick={() => {
+                setShowPlaylistDiv(false);
+              }}
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-600 p-6 relative">
         {loading && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -244,20 +283,6 @@ const App = () => {
           >
             {loading ? "Generating Playlist..." : "Create Playlist"}
           </button>
-
-          {playlistLink && (
-            <div className="mt-6 text-center">
-              <p className="text-gray-700">Your playlist is ready!</p>
-              <a
-                href={playlistLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-600 hover:underline mt-2 block"
-              >
-                Listen to your Spotify Playlist
-              </a>
-            </div>
-          )}
         </div>
         <footer className="mt-8 text-gray-600 text-sm text-center">
           <p>Made with ❤️ by Moodify Team</p>
