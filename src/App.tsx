@@ -38,7 +38,7 @@ const App = () => {
 
     const token = tokenInfo.access_token;
       setToken(token); 
-      console.log("token: ", Token);
+      console.log(token);
 };
 
   const searchSongs = async (keywords:string) => {
