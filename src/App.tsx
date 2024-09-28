@@ -39,7 +39,8 @@ const App = () => {
 
     const token = tokenInfo.access_token;
     setToken(token);
-    console.log(token);
+    localStorage.setItem("token", token);
+    // console.log(token);
     return token;
   };
 
@@ -79,7 +80,7 @@ const App = () => {
 
       const playlistData = await createPlaylistResponse.json();
       const playlistId = playlistData.id;
-      console.log("playlist data: ", playlistData);
+      // console.log("playlist data: ", playlistData);
 
       // Now add tracks to the newly created playlist
       const trackUris = songs.map((song: any) => song.uri); // Get the URIs of the songs
@@ -112,7 +113,7 @@ const App = () => {
         Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
       },
     });
-    console.log("place 2: ", Token);
+    // console.log("place 2: ", Token);
     const data = await response.json();
     setUserId(data.id);
   };
@@ -133,6 +134,9 @@ const App = () => {
         getUserId();
       } catch (error) {}
     }
+    else{
+      setToken(localStorage.getItem("token"));
+    }
   }, []);
 
   const handleGeneratePlaylist = async () => {
@@ -143,7 +147,7 @@ const App = () => {
       setLoading(true);
 
       const api_key = import.meta.env.VITE_API_KEY;
-      console.log(api_key);
+      // console.log(api_key);
 
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -157,7 +161,7 @@ const App = () => {
 
       let keywords = response.response.text();
       let name = response_2.response.text();
-      console.log(keywords, name);
+      // console.log(keywords, name);
       setPlaylistName(name);
 
       searchSongs(keywords, name);
