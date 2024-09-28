@@ -10,7 +10,7 @@ const App = () => {
   const [playlistLink, setPlaylistLink] = useState("");
   const [playlistName, setPlaylistName] = useState("");
   const [SpotifyRedirectUrl, setSpotifyRedirectUrl] = useState("");
-  const [Token, setToken] = useState<string | null>("");
+  const [Token, setToken] = useState<string | null| any>("");
   const [UserId, setUserId] = useState<any>("");
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
@@ -37,57 +37,62 @@ const App = () => {
       }, {});
 
     const token = tokenInfo.access_token;
-      setToken(token); 
-      console.log(token);
+    setToken(token); 
+    console.log(token);
+    return token
 };
 
   const searchSongs = async (keywords:string) => {
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${keywords}&type=track`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${Token}`,
-      },
-    });
-    const data = await response.json();
-    let songs = data.tracks.items;
-
-    const createPlaylistResponse = await fetch(`https://api.spotify.com/v1/users/${UserId}/playlists`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${Token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: playlistName,
-        public: true,
-      }),
-    });
-
-    const playlistData = await createPlaylistResponse.json();
-    const playlistId = playlistData.id;
-
-    // Now add tracks to the newly created playlist
-    const trackUris = songs.map((song:any) => song.uri); // Get the URIs of the songs
-
-    let createPlayListResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${Token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ uris: trackUris }),
-    });
-
-    console.log(await createPlayListResponse.json());
-
-    setLoading(false);
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/search?q=${keywords}&type=track`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
+        },
+      });
+      const data = await response.json();
+      let songs = data.tracks.items;
+  
+      const createPlaylistResponse = await fetch(`https://api.spotify.com/v1/users/${UserId}/playlists`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: playlistName,
+          public: true,
+        }),
+      });
+  
+      const playlistData = await createPlaylistResponse.json();
+      const playlistId = playlistData.id;
+  
+      // Now add tracks to the newly created playlist
+      const trackUris = songs.map((song:any) => song.uri); // Get the URIs of the songs
+  
+      let createPlayListResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ uris: trackUris }),
+      });
+  
+      console.log(await createPlayListResponse.json());
+  
+      setLoading(false);
+    } catch (error) {
+      toast.error('Error creating paylist.')
+    }
   }
 
   const getUserId = async () => {
     const response = await fetch('https://api.spotify.com/v1/me', {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${Token}`,
+        Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
       },
     });
     console.log("place 2: ", Token);
