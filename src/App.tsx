@@ -149,7 +149,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Extract the user's mood, artist names, and song titles into one string that has enough keywords to create a playlist. use your discretion where necessary. User Input: ${mood}. answer must be not be too long and only contain keywords, recommend a popular artist and song title if not provided`;
+      const prompt = `Extract the user's mood, artist names, and song titles into one string that has enough keywords to create a playlist. User Input: ${mood}.`;
 
       const response = await model.generateContent(prompt);
 
