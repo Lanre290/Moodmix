@@ -52,6 +52,7 @@ const App = () => {
       });
       const data = await response.json();
       let songs = data.tracks.items;
+      console.log(playlistName);
   
       const createPlaylistResponse = await fetch(`https://api.spotify.com/v1/users/${UserId}/playlists`, {
         method: 'POST',
