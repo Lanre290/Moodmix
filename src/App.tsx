@@ -39,6 +39,7 @@ const App = () => {
     const token = tokenInfo.access_token;
     if (token) {
         setToken(token); 
+        console.log(Token);
     }
 };
 
