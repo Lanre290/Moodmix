@@ -285,7 +285,7 @@ const App = () => {
           </button>
         </div>
         <footer className="mt-8 text-gray-600 text-sm text-center">
-          <p>Made with ❤️ by Moodify Team</p>
+          <p>Made with ❤️ by Brocode. 🖤🌹</p>
         </footer>
       </div>
     </>
