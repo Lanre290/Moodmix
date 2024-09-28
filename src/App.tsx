@@ -12,7 +12,7 @@ const App = () => {
   const [SpotifyRedirectUrl, setSpotifyRedirectUrl] = useState("");
   const [Token, setToken] = useState<string | null | any>("");
   const [UserId, setUserId] = useState<any>("");
-  const [ShowPlaylistDiv, setShowPlaylistDiv] = useState(true);
+  const [ShowPlaylistDiv, setShowPlaylistDiv] = useState(false);
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
