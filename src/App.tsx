@@ -100,10 +100,11 @@ const App = () => {
       )}&response_type=token&show_dialog=true`
     );
     setToken(localStorage.getItem("token"));
-  }, [setSpotifyRedirectUrl, setToken]);
+  }, [setSpotifyRedirectUrl, setToken, clientId, redirectUri, authEndpoint]);
 
   useEffect(() => {
     if(Token == null){
+      console.log("is null");
       try {
         const hash:any = getTokenFromUrl();
         window.location.hash = "";
@@ -191,7 +192,6 @@ const App = () => {
 
   return (
     <>
-      {console.log(Token)}
       {Token == null && (
         <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="w-11/12 md:w-1/4 rounded-2xl bg-gray-50 p-5">
