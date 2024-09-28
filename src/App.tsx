@@ -52,7 +52,6 @@ const App = () => {
       });
       const data = await response.json();
       let songs = data.tracks.items;
-      console.log(playlistName);
   
       const createPlaylistResponse = await fetch(`https://api.spotify.com/v1/users/${UserId}/playlists`, {
         method: 'POST',
@@ -139,14 +138,14 @@ const App = () => {
       const prompt = `Extract the user's mood, artist names, and song titles into one string that has enough keywords to create a playlist. use your discretion where necessary. User Input: ${mood}. answer must be not be too long and only contain keywords, recommend a popular artist and song title if not provided`;
 
       const response = await model.generateContent(prompt);
-      const prompt_2 = `a song playlist has been created fro a user based on their moods: ${mood}, suggest a playlist name in just one string.`;
 
+      const prompt_2 = `a song playlist has been created fro a user based on their moods: ${mood}, suggest a playlist name in just one string.`;
       const response_2 = await model.generateContent(prompt_2);
 
       let keywords = response.response.text();
-      let playlistName = response_2.response.text();
-      console.log(keywords, playlistName);
-      setPlaylistName(playlistName);
+      let name = response_2.response.text();
+      console.log(keywords, name);
+      setPlaylistName(name);
 
       searchSongs(keywords);
       // const sentimentMagnitude = data.documentSentiment.magnitude; // The intensity of the sentiment
