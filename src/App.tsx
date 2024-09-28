@@ -40,7 +40,7 @@ const App = () => {
 
     const token = tokenInfo.access_token;
     setToken(token);
-    localStorage.setItem("token", token);
+    // localStorage.setItem("token", token);
     // console.log(token);
     return token;
   };
@@ -127,19 +127,13 @@ const App = () => {
         "%20"
       )}&response_type=token&show_dialog=true`
     );
-    setToken(localStorage.getItem("token"));
   }, [setSpotifyRedirectUrl, setToken, clientId, redirectUri, authEndpoint]);
 
   useEffect(() => {
-    if (localStorage.getItem("token") == null) {
-      try {
-        getTokenFromUrl();
-        getUserId();
-      } catch (error) {}
-    }
-    else{
-      setToken(localStorage.getItem("token"));
-    }
+    try {
+      getTokenFromUrl();
+      getUserId();
+    } catch (error) {}
   }, []);
 
   const handleGeneratePlaylist = async () => {
