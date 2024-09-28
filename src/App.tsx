@@ -13,6 +13,7 @@ const App = () => {
   const [Token, setToken] = useState<string | null | any>("");
   const [UserId, setUserId] = useState<any>("");
   const [ShowPlaylistDiv, setShowPlaylistDiv] = useState(false);
+  const [isLoginDiv, setIsLoginDiv] = useState(false);
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
@@ -102,7 +103,8 @@ const App = () => {
       setShowPlaylistDiv(true);
       setLoading(false);
     } catch (error) {
-      toast.error("Error creating paylist.");
+      toast.error("Error creating paylist, you must be logged in.");
+      setIsLoginDiv(true);
     }
   };
 
@@ -210,7 +212,7 @@ const App = () => {
 
   return (
     <>
-      {Token == null && (
+      {(Token == null || isLoginDiv == true) && (
         <div className="fixed top-0 bottom-0 left-0 right-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="w-11/12 md:w-1/4 rounded-2xl bg-gray-50 p-5">
             <h1 className="text-gray-900 text-center my-3 text-3xl">
