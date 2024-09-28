@@ -129,6 +129,7 @@ const App = () => {
       setLoading(true);
 
       const api_key = import.meta.env.VITE_API_KEY;
+      console.log(api_key);
 
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
