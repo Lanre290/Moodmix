@@ -237,19 +237,22 @@ const App = () => {
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline mt-2 block mx-auto text-center my-2 text-xl"
             >
-              <button className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto">
+              <button className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
+onClick={() => {
+                setShowPlaylistDiv(false);
+              }}>
                 Open playlist
               </button>
             </a>
 
-            <button
-              className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
-              onClick={() => {
-                setShowPlaylistDiv(false);
-              }}
-            >
-              Dismiss
-            </button>
+          //  /*<button
+              //className="bg-blue-500 cursor-pointer px-6 //py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
+             // onClick={() => {
+           //     setShowPlaylistDiv(false);
+             // }}
+           // >
+             // Dismiss
+           // </button>
           </div>
         </div>
       )}
