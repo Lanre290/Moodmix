@@ -127,12 +127,13 @@ const App = () => {
   }, [setSpotifyRedirectUrl, setToken, clientId, redirectUri, authEndpoint]);
 
   useEffect(() => {
-if(localStorage.getItem("token") == null){
-try {
+    try {
       getTokenFromUrl();
       getUserId();
-    } catch (error) {}
-}
+    } catch (error) {
+      setIsLoginDiv(true);
+      toast.error('You must be logged in.');
+    }
   }, []);
 
   const handleGeneratePlaylist = async () => {
