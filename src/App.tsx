@@ -109,15 +109,19 @@ const App = () => {
   };
 
   const getUserId = async () => {
-    const response = await fetch("https://api.spotify.com/v1/me", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
-      },
-    });
-    // console.log("place 2: ", Token);
-    const data = await response.json();
-    setUserId(data.id);
+    try {
+      const response = await fetch("https://api.spotify.com/v1/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
+        },
+      });
+      // console.log("place 2: ", Token);
+      const data = await response.json();
+      setUserId(data.id);
+    } catch (error) {
+      setIsLoginDiv(true);
+    }
   };
 
   useEffect(() => {
