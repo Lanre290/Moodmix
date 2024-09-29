@@ -151,7 +151,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Extract every mood or feeling, artist name and song title from user input to create a spotify search query to create the perfect playlist. search query must be clean and only contain the searh query thereby it must not be too long. User Input: ${mood}.  Bring out every keyword as possible!!!`;
+      const prompt = `Extract every mood or feeling, artist name and song title from user input to create a spotify search query to create the perfect playlist. search query must be clean and only contain the searh query thereby it must not be too long: [lists of keywords]. User Input: ${mood}.  Bring out every keyword as possible!!!`;
 
       const response = await model.generateContent(prompt);
 
