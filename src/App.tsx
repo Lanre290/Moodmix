@@ -121,7 +121,7 @@ const App = () => {
           Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
         },
       });
-      // console.log("place 2: ", Token);
+      console.log("place 2: ", Token.length > 0 ? Token : getTokenFromUrl());
       const data = await response.json();
       setUserId(data.id);
     } catch (error) {
