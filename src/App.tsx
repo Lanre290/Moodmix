@@ -59,6 +59,7 @@ const App = () => {
       );
       const data = await response.json();
       let songs = data.tracks.items;
+      console.log(UserId);
 
       const createPlaylistResponse = await fetch(
         `https://api.spotify.com/v1/users/${UserId}/playlists`,
@@ -107,7 +108,7 @@ const App = () => {
   };
 
   const getUserId = async () => {
-    // try {
+    try {
       const response = await fetch("https://api.spotify.com/v1/me", {
         method: "GET",
         headers: {
@@ -115,13 +116,13 @@ const App = () => {
         },
       });
 
-      console.log(await response.json());
+      // console.log(await response.json());
       // console.log("place 2: ", Token.length > 0 ? Token : getTokenFromUrl());
       const data = await response.json();
       setUserId(data.id);
-    // } catch (error) {
-    //   setIsLoginDiv(true);
-    // }
+    } catch (error) {
+      setIsLoginDiv(true);
+    }
   };
 
   useEffect(() => {
