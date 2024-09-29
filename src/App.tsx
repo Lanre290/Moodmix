@@ -48,8 +48,11 @@ const App = () => {
   const searchSongs = async (keywords: string, playlistName: string) => {
     try {
       setPlaylistName(playlistName);
+      let rand = Math.floor(Math.random() * 50);
+      let number = (rand + 20) > 50 ? rand : 50;
+
       const response = await fetch(
-        `https://api.spotify.com/v1/search?q=${keywords}&type=track`,
+        `https://api.spotify.com/v1/search?q=${keywords}&type=track&limit=${number}`,
         {
           method: "GET",
           headers: {
