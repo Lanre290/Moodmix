@@ -10,7 +10,7 @@ const App = () => {
   const [playlistLink, setPlaylistLink] = useState<string>("");
   const [playlistName, setPlaylistName] = useState<string>("");
   const [SpotifyRedirectUrl, setSpotifyRedirectUrl] = useState<string>("");
-  const [Token, setToken] = useState<string | null | any>("");
+  const [Token, setToken] = useState<any>("");
   const [UserId, setUserId] = useState<string>("");
   const [ShowPlaylistDiv, setShowPlaylistDiv] = useState<boolean>(false);
   const [isLoginDiv, setIsLoginDiv] = useState<boolean>(false);
@@ -18,10 +18,7 @@ const App = () => {
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_APP_URL;
-  const scopes = [
-    "playlist-modify-public",
-    "user-library-modify",
-  ];
+  const scopes = ["playlist-modify-public", "user-library-modify"];
 
   const getTokenFromUrl = () => {
     const tokenInfo = window.location.hash
@@ -30,13 +27,11 @@ const App = () => {
       .reduce((initial: any, item: any) => {
         let parts = item.split("=");
         initial[parts[0]] = decodeURIComponent(parts[1]);
-        return initial;
+        return initial; 
       }, {});
 
     const token = tokenInfo.access_token;
     setToken(token);
-    // localStorage.setItem("token", token);
-    // console.log(token);
     return token;
   };
 
@@ -58,7 +53,7 @@ const App = () => {
         }
       );
       const data = await response.json();
-      let songs = data.tracks.items;
+      let songs = data.tracks.items; 
 
       const createPlaylistResponse = await fetch(
         `https://api.spotify.com/v1/users/${UserId}/playlists`,
@@ -111,7 +106,9 @@ const App = () => {
       const response = await fetch("https://api.spotify.com/v1/me", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
+          Authorization: `Bearer ${
+            Token.length > 0 ? Token : getTokenFromUrl()
+          }`,
         },
       });
 
@@ -138,7 +135,7 @@ const App = () => {
       getUserId();
     } catch (error) {
       setIsLoginDiv(true);
-      toast.error('You must be logged in.');
+      toast.error("You must be logged in.");
     }
   }, []);
 
@@ -155,7 +152,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Extract every mood or feeling, artist name and song title from user input to create a short spotify search query to create the perfect playlist. search query must be clean and only contain the searh query thereby it must not be too long: [lists of keywords]. ensure you add any artist's name included. User Input: ${mood}. I need just the query, no other words must be included!!!`;
+      const prompt = `Extract every mood or feeling, artist name and song title from user input to create a short spotify search query to create the perfect playlist. search query must be clean and only contain the searh query thereby it must not be too long: [lists of keywords]. ensure you add any artist's name included and suggest an artist's name if none is detected. User Input: ${mood}. I need just the query, no other words must be included!!!`;
 
       const response = await model.generateContent(prompt);
 
@@ -233,13 +230,16 @@ const App = () => {
             <p className="text-gray-900 text-center my-3 text-3xl">
               Your playlist is ready!
             </p>
+            {playlistName}
             <a
               href={playlistLink}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline mt-2 block mx-auto text-center my-2 text-xl"
             >
-              {playlistName}
+              <button className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto">
+                Open playlist
+              </button>
             </a>
 
             <button
