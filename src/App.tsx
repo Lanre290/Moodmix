@@ -5,15 +5,15 @@ import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
 
 const App = () => {
-  const [mood, setMood] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [playlistLink, setPlaylistLink] = useState("");
-  const [playlistName, setPlaylistName] = useState("");
-  const [SpotifyRedirectUrl, setSpotifyRedirectUrl] = useState("");
+  const [mood, setMood] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [playlistLink, setPlaylistLink] = useState<string>("");
+  const [playlistName, setPlaylistName] = useState<string>("");
+  const [SpotifyRedirectUrl, setSpotifyRedirectUrl] = useState<string>("");
   const [Token, setToken] = useState<string | null | any>("");
-  const [UserId, setUserId] = useState<any>("");
-  const [ShowPlaylistDiv, setShowPlaylistDiv] = useState(false);
-  const [isLoginDiv, setIsLoginDiv] = useState(false);
+  const [UserId, setUserId] = useState<string>("");
+  const [ShowPlaylistDiv, setShowPlaylistDiv] = useState<boolean>(false);
+  const [isLoginDiv, setIsLoginDiv] = useState<boolean>(false);
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
@@ -83,7 +83,7 @@ const App = () => {
       const playlistId = playlistData.id;
       // console.log("playlist data: ", playlistData);
 
-      const trackUris = songs.map((song: any) => song.uri); 
+      const trackUris = songs.map((song: any) => song.uri);
 
       fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
         method: "POST",
@@ -148,7 +148,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Extract every mood or feeling, artist name and song title from user input into one string for example: polo g, happy, sad and as many as you can list that has enough keywords to create a playlist. User Input: ${mood}.  Bring out every keyword as possible!!!`;
+      const prompt = `Extract every mood or feeling, artist name and song title from user input to create a spotify search query to create the perfect playlist. User Input: ${mood}.  Bring out every keyword as possible!!!`;
 
       const response = await model.generateContent(prompt);
 
@@ -163,10 +163,8 @@ const App = () => {
       searchSongs(keywords, name);
       // const sentimentMagnitude = data.documentSentiment.magnitude; // The intensity of the sentiment
 
-      // // Initialize an empty array to hold Spotify-friendly search keywords
       // let spotifyKeywords = [];
 
-      // // Map moods to Spotify-friendly terms
       // if (sentimentScore > 0.5) {
       //   spotifyKeywords.push('happy', 'upbeat', 'energetic');
       // } else if (sentimentScore < 0) {
