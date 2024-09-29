@@ -25,7 +25,9 @@ const App = () => {
     "playlist-modify-private",
     "playlist-modify-public",
     "user-library-read",
-    "user-library-modify"
+    "user-library-modify",
+    "user-read-private",
+    "user-read-email"
   ];
 
   const getTokenFromUrl = () => {
