@@ -19,8 +19,6 @@ const App = () => {
   const clientId = import.meta.env.VITE_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_APP_URL;
   const scopes = [
-    "user-read-currently-playing",
-    "user-read-playback-state",
     "playlist-read-private",
     "playlist-modify-private",
     "playlist-modify-public",
@@ -129,10 +127,12 @@ const App = () => {
   }, [setSpotifyRedirectUrl, setToken, clientId, redirectUri, authEndpoint]);
 
   useEffect(() => {
-    try {
+if(localStorage.getItem("token") == null){
+try {
       getTokenFromUrl();
       getUserId();
     } catch (error) {}
+}
   }, []);
 
   const handleGeneratePlaylist = async () => {
@@ -283,7 +283,7 @@ const App = () => {
           </button>
         </div>
         <footer className="mt-8 text-gray-600 text-sm text-center">
-          <p>Made with ❤️ by Moodify Team</p>
+          <p>Made with ❤️ by Brocode. 🖤🌹</p>
         </footer>
       </div>
     </>
