@@ -114,19 +114,21 @@ const App = () => {
   };
 
   const getUserId = async () => {
-    try {
+    // try {
       const response = await fetch("https://api.spotify.com/v1/me", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
         },
       });
-      console.log("place 2: ", Token.length > 0 ? Token : getTokenFromUrl());
+
+      console.log(await response.json());
+      // console.log("place 2: ", Token.length > 0 ? Token : getTokenFromUrl());
       const data = await response.json();
       setUserId(data.id);
-    } catch (error) {
-      setIsLoginDiv(true);
-    }
+    // } catch (error) {
+    //   setIsLoginDiv(true);
+    // }
   };
 
   useEffect(() => {
