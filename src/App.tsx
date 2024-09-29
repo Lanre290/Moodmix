@@ -19,11 +19,13 @@ const App = () => {
   const clientId = import.meta.env.VITE_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_APP_URL;
   const scopes = [
+    "user-read-currently-playing",
+    "user-read-playback-state",
     "playlist-read-private",
     "playlist-modify-private",
     "playlist-modify-public",
     "user-library-read",
-    "user-library-modify",
+    "user-library-modify"
   ];
 
   const getTokenFromUrl = () => {
@@ -46,6 +48,7 @@ const App = () => {
   const searchSongs = async (keywords: string, playlistName: string) => {
     try {
       setPlaylistName(playlistName);
+      console.log(Token, getTokenFromUrl());
       const response = await fetch(
         `https://api.spotify.com/v1/search?q=${keywords}&type=track`,
         {
