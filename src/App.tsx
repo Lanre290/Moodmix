@@ -115,6 +115,7 @@ const App = () => {
       // console.log(await response.json());
       // console.log("place 2: ", Token.length > 0 ? Token : getTokenFromUrl());
       const data = await response.json();
+      console.log(data);
       setUserId(data.id);
     } catch (error) {
       setIsLoginDiv(true);
@@ -237,23 +238,22 @@ const App = () => {
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline mt-2 block mx-auto text-center my-2 text-xl"
             >
-              <button className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
-onClick={() => {
                 setShowPlaylistDiv(false);
               }}>
                 Open playlist
               </button>
             </a>
-
-          /*<button
-              className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600
-mx-auto"
-             onClick={() => {
-              setShowPlaylistDiv(false);
+              
+            {/* <button
+              className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
+              onClick={() => {
+                setShowPlaylistDiv(false);
               }}
             >
-             Dismiss
-           </button>*/
+              Dismiss
+            </button>
+             */}
+            
           </div>
         </div>
       )}
@@ -264,8 +264,6 @@ mx-auto"
           </div>
         )}
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full z-10">
-          <h1 className="text-4xl font-bold text-center mb-4 text-gray-800">
-            Moodmix
           </h1>
           <p className="text-gray-600 text-center mb-4">
             Describe your mood and let AI generate the perfect playlist for you.
