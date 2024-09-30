@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { FaMusic, FaSadTear, FaSmile } from "react-icons/fa";
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
 
@@ -27,7 +26,6 @@ const App = () => {
       .reduce((initial: any, item: any) => {
         let parts = item.split("=");
         initial[parts[0]] = decodeURIComponent(parts[1]);
-        return initial; 
       }, {});
 
     const token = tokenInfo.access_token;
@@ -238,12 +236,15 @@ const App = () => {
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline mt-2 block mx-auto text-center my-2 text-xl"
             >
-                setShowPlaylistDiv(false);
-              }}>
+              <button
+                className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
+                onClick={() => {
+                  setShowPlaylistDiv(false);
+                }}
+              >
                 Open playlist
               </button>
             </a>
-              className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
               onClick={() => {
                 setShowPlaylistDiv(false);
               }}
@@ -262,7 +263,17 @@ const App = () => {
           </div>
         )}
         <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full z-10">
-          </h1>
+          <div className="flex flex-row items-center justify-between mb-4">
+            <h1 className="text-4xl font-bold text-center text-gray-800">
+              Moodmix
+            </h1>
+            <div className="flex flex-col relative px-4 py-3 rounded-2xl bg-indigo-600 cursor-pointer items-center justify-center text-gray-50 text-xl">
+              <div className="flex flex-row gap-x-3">
+                {} sheriff
+                <FaSortDown></FaSortDown>
+              </div>
+            </div>
+          </div>
           <p className="text-gray-600 text-center mb-4">
             Describe your mood and let AI generate the perfect playlist for you.
           </p>
