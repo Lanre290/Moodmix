@@ -247,7 +247,6 @@ const App = () => {
                 Open playlist
               </button>
             </a>
-                setShowPlaylistDiv(false);
               }}
             >
               Dismiss
