@@ -247,12 +247,6 @@ const App = () => {
                 Open playlist
               </button>
             </a>
-              }}
-            >
-              Dismiss
-            </button>
-             */}
-            
           </div>
         </div>
       )}
