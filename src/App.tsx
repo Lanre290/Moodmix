@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { FaMusic, FaSadTear, FaSmile, FaSortDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
 
@@ -26,6 +27,7 @@ const App = () => {
       .reduce((initial: any, item: any) => {
         let parts = item.split("=");
         initial[parts[0]] = decodeURIComponent(parts[1]);
+        return initial;
       }, {});
 
     const token = tokenInfo.access_token;
@@ -245,7 +247,6 @@ const App = () => {
                 Open playlist
               </button>
             </a>
-              onClick={() => {
                 setShowPlaylistDiv(false);
               }}
             >
