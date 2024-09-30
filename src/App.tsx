@@ -14,6 +14,7 @@ const App = () => {
   const [UserId, setUserId] = useState<string>("");
   const [ShowPlaylistDiv, setShowPlaylistDiv] = useState<boolean>(false);
   const [isLoginDiv, setIsLoginDiv] = useState<boolean>(false);
+  const [UserName, setUserName] = useState<string>("");
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
@@ -117,6 +118,7 @@ const App = () => {
       const data = await response.json();
       console.log(data);
       setUserId(data.id);
+      setUserName(data.display_name);
     } catch (error) {
       setIsLoginDiv(true);
     }
@@ -263,7 +265,7 @@ const App = () => {
             </h1>
             <div className="flex flex-col relative px-4 py-3 rounded-2xl bg-indigo-600 cursor-pointer items-center justify-center text-gray-50 text-xl">
               <div className="flex flex-row gap-x-3">
-                {} sheriff
+                {UserName}
                 <FaSortDown></FaSortDown>
               </div>
             </div>
