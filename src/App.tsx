@@ -243,7 +243,6 @@ const App = () => {
                 Open playlist
               </button>
             </a>
-              
               className="bg-blue-500 cursor-pointer px-6 py-2 rounded-xl text-gray-50 hover:bg-blue-600 mx-auto"
               onClick={() => {
                 setShowPlaylistDiv(false);
