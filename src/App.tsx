@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaMusic, FaSadTear, FaSmile, FaSortDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
+import { getTopArtists } from "./api.js";
 
 const App = () => {
   const [mood, setMood] = useState<string>("");
@@ -34,6 +35,32 @@ const App = () => {
     const token = tokenInfo.access_token;
     setToken(token);
     return token;
+  };
+
+  const getTopArtists = async () => {
+    const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      },
+    });
+
+    const data = await response.json();
+
+    return data;
+  };
+
+  const getTopTracks = async () => {
+    const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+      },
+    });
+
+    const data = await response.json();
+
+    return data;
   };
 
   const searchSongs = async (keywords: string, playlistName: string) => {
@@ -151,6 +178,12 @@ const App = () => {
 
       const api_key = import.meta.env.VITE_API_KEY;
       // console.log(api_key);
+
+      let topArtists = getTopArtists();
+      console.log(topArtists);
+
+      let topTracks = getTopTracks();
+      console.log(topTracks);
 
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
