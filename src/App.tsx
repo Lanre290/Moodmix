@@ -43,13 +43,13 @@ const App = () => {
   };
 
   const getTopArtists = async () => {
+    console.log(api_key);
     const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${api_key}`,
       },
     });
-    console.log(api_key);
 
     const data = await response.json();
     console.log(data);
@@ -57,13 +57,13 @@ const App = () => {
   };
 
   const getTopTracks = async () => {
+    console.log(api_key);
     const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${api_key}`,
       },
     });
-    console.log(api_key);
 
     const data = await response.json();
 
