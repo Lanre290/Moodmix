@@ -20,7 +20,12 @@ const App = () => {
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
   const redirectUri = import.meta.env.VITE_APP_URL;
-  const scopes = ["playlist-modify-public", "user-library-modify"];
+  const scopes = [
+    "playlist-modify-public",
+    "user-library-modify",
+    "user-top-read",
+  ];
+  const api_key = import.meta.env.VITE_API_KEY;
 
   const getTokenFromUrl = () => {
     const tokenInfo = window.location.hash
@@ -41,7 +46,7 @@ const App = () => {
     const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+        Authorization: `Bearer ${api_key}`,
       },
     });
 
@@ -54,7 +59,7 @@ const App = () => {
     const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
+        Authorization: `Bearer ${api_key}`,
       },
     });
 
@@ -175,8 +180,6 @@ const App = () => {
         throw new Error("You seem to be offline.");
       }
       setLoading(true);
-
-      const api_key = import.meta.env.VITE_API_KEY;
       // console.log(api_key);
 
       let topArtists = getTopArtists();
