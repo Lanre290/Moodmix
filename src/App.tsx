@@ -51,7 +51,7 @@ const App = () => {
     });
 
     const data = await response.json();
-
+    console.log(data);
     return data;
   };
 
@@ -64,6 +64,8 @@ const App = () => {
     });
 
     const data = await response.json();
+
+    console.log(data);
 
     return data;
   };
