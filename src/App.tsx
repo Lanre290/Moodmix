@@ -49,6 +49,7 @@ const App = () => {
         Authorization: `Bearer ${api_key}`,
       },
     });
+    console.log(api_key);
 
     const data = await response.json();
     console.log(data);
@@ -62,6 +63,7 @@ const App = () => {
         Authorization: `Bearer ${api_key}`,
       },
     });
+    console.log(api_key);
 
     const data = await response.json();
 
