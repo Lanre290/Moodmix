@@ -199,7 +199,6 @@ const App = () => {
       }
 
       let topSongs: songs[] = [];
-      console.log(rawTopSongs);
       rawTopSongs.items.forEach((song: songs) => {
         let arr: {} | any = {};
         let artists: string[] = [];
@@ -219,14 +218,14 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Analyze the user's mood and feelings along with their top artists and songs. 
+      const prompt = `Analyze the user's mood and feelings along with their top artists and songs.
                       Consider the intensity of the mood,
-                      If the mood input has various nuances (e.g., 'happy but tired'), capture those subtleties. 
-                      Use synonyms, genre preferences, and current trends to curate relevant keywords. 
-                      User input: ${mood}. 
-                      Top artists: ${JSON.stringify(Artists)}. 
-                      Top songs: ${JSON.stringify(topSongs)}. 
-                      Return only keywords for a Spotify search query that aligns with the user's mood. make it very brief and include only necessary keywords without any extra word.`;
+                      If the mood input has various nuances (e.g., 'happy but tired'), capture those subtleties.
+                      Use synonyms, genre preferences, and current trends to curate relevant keywords.
+                      User input: ${mood}
+                      Top artists: ${JSON.stringify(Artists)}
+                      Top songs: ${JSON.stringify(topSongs)}
+                      Return only keywords for a Spotify search query that aligns with the user's mood, make it very brief and include only necessary keywords without any extra word.`;
 
       const response = await model.generateContent(prompt);
 
@@ -236,6 +235,8 @@ const App = () => {
       let keywords = response.response.text();
       let name = response_2.response.text();
       setPlaylistName(name);
+
+      console.log(keywords);
 
       searchSongs(keywords, name);
 
