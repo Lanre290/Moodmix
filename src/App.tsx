@@ -26,7 +26,6 @@ const App = () => {
   ];
   const api_key = import.meta.env.VITE_API_KEY;
 
-
   const getTokenFromUrl = () => {
     const tokenInfo = window.location.hash
       .substring(1)
@@ -214,7 +213,6 @@ const App = () => {
         topSongs.push(arr);
       });
 
-
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -236,44 +234,7 @@ const App = () => {
       let name = response_2.response.text();
       setPlaylistName(name);
 
-      console.log(keywords, "artists", JSON.stringify(Artists), "songs: ", JSON.stringify(topSongs));
-
       searchSongs(keywords, name);
-
-      // let spotifyKeywords = [];
-
-      // if (sentimentScore > 0.5) {
-      //   spotifyKeywords.push('happy', 'upbeat', 'energetic');
-      // } else if (sentimentScore < 0) {
-      //   spotifyKeywords.push('sad', 'melancholy', 'low-energy');
-      // } else {
-      //   spotifyKeywords.push('neutral', 'calm');
-      // }
-
-      // // Additional logic for handling more nuanced emotions
-      // if (sentimentMagnitude > 2.0) {
-      //   spotifyKeywords.push('intense', 'powerful');
-      // } else if (sentimentMagnitude < 0.5) {
-      //   spotifyKeywords.push('chill', 'relaxing');
-      // }
-
-      // // Add custom categories based on certain keywords in the description
-      // if (mood.toLowerCase().includes('anxious')) {
-      //   spotifyKeywords.push('ambient', 'calm');
-      // }
-      // if (mood.toLowerCase().includes('energetic')) {
-      //   spotifyKeywords.push('workout', 'upbeat');
-      // }
-      // if (mood.toLowerCase().includes('stressed')) {
-      //   spotifyKeywords.push('calming', 'focus');
-      // }
-
-      // console.log(`Spotify Search Keywords: ${spotifyKeywords.join(', ')}`);
-
-      // setTimeout(() => {
-      //   setPlaylistLink("https://open.spotify.com/playlist/sample-link");
-      //   setLoading(false);
-      // }, 2000);
     } catch (error: any) {
       toast.error(error);
     }
