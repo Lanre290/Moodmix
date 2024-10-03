@@ -200,6 +200,9 @@ const App = () => {
       console.log(data);
       setUserId(data.id);
       setUserName(data.display_name);
+      if(!response.ok){
+        setIsLoginDiv(true)
+      }
     } catch (error) {
       setIsLoginDiv(true);
     }
