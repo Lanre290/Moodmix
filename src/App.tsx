@@ -45,8 +45,8 @@ const App = () => {
   const searchSongs = async (keywords: string, playlistName: string) => {
     try {
       setPlaylistName(playlistName);
-      let rand = Math.floor(Math.random() * 30);
-      let number = rand + 10 > 30 ? rand : 30;
+      let rand = Math.floor(Math.random() * 50);
+      let number = rand + 10 > 50 ? rand : 50;
 
       const response = await fetch(
         `https://api.spotify.com/v1/search?q=${keywords}&type=track&limit=${number}`,
@@ -173,13 +173,8 @@ const App = () => {
         }
       );
   
-      interface url {
-        spotify: string;
-      }
-  
       interface artists {
         name: string;
-        external_urls: url;
         genres: string[];
       }
   
@@ -188,7 +183,6 @@ const App = () => {
       rawArtists.items.forEach((artist: artists) => {
         let arr: {} | any = {};
         arr["name"] = artist.name;
-        arr["spotify_url"] = artist.external_urls.spotify;
         arr["genres"] = artist.genres.join(", ");
   
         Artists.push(arr);
