@@ -285,7 +285,7 @@ const App = () => {
         artists: string[];
       }
   
-      let topSongs: string = "";
+      let topSongs: songs[] = [];
       rawTopSongs.items.forEach((song: songs) => {
         let arr: {} | any = {};
         let artists: string[] = [];
