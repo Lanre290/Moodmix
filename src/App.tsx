@@ -191,6 +191,8 @@ const App = () => {
       );
 
       let rawTopSongs = await topTracksResponse.json();
+      
+      let topGenres = [];
 
       interface songs {
         name: string;
@@ -198,6 +200,7 @@ const App = () => {
       }
 
       let topSongs: songs[] = [];
+      console.log(rawTopSongs);
       rawTopSongs.items.forEach((song: songs) => {
         let arr: {} | any = {};
         let artists: string[] = [];
@@ -212,6 +215,7 @@ const App = () => {
 
         topSongs.push(arr);
       });
+
 
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
