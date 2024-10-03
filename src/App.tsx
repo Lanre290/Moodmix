@@ -42,33 +42,78 @@ const App = () => {
   };
 
   const getTopArtists = async () => {
-    console.log(api_key);
-    const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
-      },
-    });
+    const response = await fetch(
+      "https://api.spotify.com/v1/me/top/artists?limit=10",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${
+            Token.length > 0 ? Token : getTokenFromUrl()
+          }`,
+        },
+      }
+    );
+
+    interface url {
+      spotify: string;
+    }
+
+    interface artists {
+      name: string;
+      external_urls: url;
+      genres: string[];
+    }
 
     const data = await response.json();
-    console.log(data);
-    return data;
+    const outData: artists[] = [];
+    data.items.forEach((artist: artists) => {
+      let arr: {} | any = {};
+      arr["name"] = artist.name;
+      arr["spotify_url"] = artist.external_urls.spotify;
+      arr["genres"] = artist.genres.join(", ");
+
+      outData.push(arr);
+    });
+    return outData;
   };
 
   const getTopTracks = async () => {
-    console.log(api_key);
-    const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
-      },
-    });
+    const response = await fetch(
+      "https://api.spotify.com/v1/me/top/tracks?limit=10",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${
+            Token.length > 0 ? Token : getTokenFromUrl()
+          }`,
+        },
+      }
+    );
 
     const data = await response.json();
 
-    console.log(data);
 
-    return data;
+    interface songs {
+      name: string;
+      artists: string[];
+    }
+
+    const outData: songs[] = [];
+    data.items.forEach((song: songs) => {
+      let arr: {} | any = {};
+      let artists: string[] = [];
+
+      arr["song_title"] = song.name;
+
+      song.artists.forEach((artist: any) => {
+        artists.push(artist.name);
+      });
+
+      arr["artist"] = artists.join(', ');
+
+      outData.push(arr);
+    });
+    return outData;
   };
 
   const searchSongs = async (keywords: string, playlistName: string) => {
