@@ -314,7 +314,7 @@ const App = () => {
                       User input: ${mood}. 
                       Top artists: ${JSON.stringify(Artists)}. 
                       Top songs: ${JSON.stringify(topSongs)}. 
-                      Return a filtered list of keywords for a Spotify search query that aligns with the user's mood.`;
+                      Return only keywords for a Spotify search query that aligns with the user's mood.`;
 
 
       const response = await model.generateContent(prompt);
