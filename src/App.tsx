@@ -15,6 +15,7 @@ const App = () => {
   const [ShowPlaylistDiv, setShowPlaylistDiv] = useState<boolean>(false);
   const [isLoginDiv, setIsLoginDiv] = useState<boolean>(false);
   const [UserName, setUserName] = useState<string>("");
+  const [Placeholder, setPlaceholder] = useState<string>("");
 
   const authEndpoint = "https://accounts.spotify.com/authorize";
   const clientId = import.meta.env.VITE_CLIENT_ID;
@@ -25,6 +26,21 @@ const App = () => {
     "user-top-read",
   ];
   const api_key = import.meta.env.VITE_API_KEY;
+
+  setInterval(() => {
+    const refreshText = async () => {
+      const textGen = new GoogleGenerativeAI(api_key);
+      const model = textGen.getGenerativeModel({ model: "gemini-1.5-flash" });
+  
+      const prompt = `Suggest an input for user to enter into a textbox of an application that converts user's input into spotify playlist by analysing their input.`;
+  
+      const response = await model.generateContent(prompt);
+  
+      let text = response.response.text();
+
+      setPlaceholder(text);
+    }
+  }, 5000)
 
   const getTokenFromUrl = () => {
     const tokenInfo = window.location.hash
@@ -191,8 +207,6 @@ const App = () => {
       );
 
       let rawTopSongs = await topTracksResponse.json();
-      
-      let topGenres = [];
 
       interface songs {
         name: string;
@@ -350,7 +364,7 @@ const App = () => {
           </div>
           <textarea
             className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-700"
-            placeholder="How are you feeling today?"
+            placeholder={`How are you feeling today? ${Placeholder}?`}
             value={mood}
             onChange={(e) => setMood(e.target.value)}
           />
