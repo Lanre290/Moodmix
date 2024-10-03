@@ -3,7 +3,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaMusic, FaSadTear, FaSmile, FaSortDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
-import { stringify } from "postcss";
 
 const App = () => {
   const [mood, setMood] = useState<string>("");
@@ -81,7 +80,6 @@ const App = () => {
 
       const playlistData = await createPlaylistResponse.json();
       const playlistId = playlistData.id;
-      // console.log("playlist data: ", playlistData);
 
       const trackUris = songs.map((song: any) => song.uri);
 
@@ -95,8 +93,6 @@ const App = () => {
         },
         body: JSON.stringify({ uris: trackUris }),
       });
-
-      // let createPlayListResponseRes = await createPlayListResponse.json();
 
       setPlaylistLink(playlistData.external_urls.spotify);
       setShowPlaylistDiv(true);
@@ -119,14 +115,11 @@ const App = () => {
         },
       });
 
-      // console.log(await response.json());
-      // console.log("place 2: ", Token.length > 0 ? Token : getTokenFromUrl());
       const data = await response.json();
-      console.log(data);
       setUserId(data.id);
       setUserName(data.display_name);
-      if(!response.ok){
-        setIsLoginDiv(true)
+      if (!response.ok) {
+        setIsLoginDiv(true);
       }
     } catch (error) {
       setIsLoginDiv(true);
@@ -157,10 +150,7 @@ const App = () => {
         throw new Error("You seem to be offline.");
       }
       setLoading(true);
-      // console.log(api_key);
 
-
-     
       const topArtistResponse = await fetch(
         "https://api.spotify.com/v1/me/top/artists?limit=12",
         {
@@ -172,19 +162,19 @@ const App = () => {
           },
         }
       );
-  
+
       interface artists {
         name: string;
         genres: string[];
       }
-  
+
       let rawArtists = await topArtistResponse.json();
       let Artists: artists[] = [];
       rawArtists.items.forEach((artist: artists) => {
         let arr: {} | any = {};
         arr["name"] = artist.name;
         arr["genres"] = artist.genres.join(", ");
-  
+
         Artists.push(arr);
       });
 
@@ -199,33 +189,30 @@ const App = () => {
           },
         }
       );
-  
+
       let rawTopSongs = await topTracksResponse.json();
-  
-  
+
       interface songs {
         name: string;
         artists: string[];
       }
-  
+
       let topSongs: songs[] = [];
       rawTopSongs.items.forEach((song: songs) => {
         let arr: {} | any = {};
         let artists: string[] = [];
-  
+
         arr["song_title"] = song.name;
-  
+
         song.artists.forEach((artist: any) => {
           artists.push(artist.name);
         });
-  
-        arr["artist"] = artists.join(', ');
-  
+
+        arr["artist"] = artists.join(", ");
+
         topSongs.push(arr);
       });
-      
 
-      console.log("artists: ", JSON.stringify(Artists),"songs: ", JSON.stringify(topSongs))
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -238,7 +225,6 @@ const App = () => {
                       Top songs: ${JSON.stringify(topSongs)}. 
                       Return only keywords for a Spotify search query that aligns with the user's mood. make it very brief and include only necessary keywords without any extra word.`;
 
-
       const response = await model.generateContent(prompt);
 
       const prompt_2 = `a song playlist has been created fro a user based on their moods: ${mood}, suggest a playlist name in just one string.`;
@@ -246,11 +232,9 @@ const App = () => {
 
       let keywords = response.response.text();
       let name = response_2.response.text();
-      console.log("keywords: ",  keywords);
       setPlaylistName(name);
 
       searchSongs(keywords, name);
-      // const sentimentMagnitude = data.documentSentiment.magnitude; // The intensity of the sentiment
 
       // let spotifyKeywords = [];
 
