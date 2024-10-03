@@ -230,16 +230,82 @@ const App = () => {
       setLoading(true);
       // console.log(api_key);
 
-      let topArtists = getTopArtists();
-      console.log(await topArtists);
 
-      let topTracks = getTopTracks();
-      console.log(await topTracks);
+     
+      const topArtistResponse = await fetch(
+        "https://api.spotify.com/v1/me/top/artists?limit=10",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${
+              Token.length > 0 ? Token : getTokenFromUrl()
+            }`,
+          },
+        }
+      );
+  
+      interface url {
+        spotify: string;
+      }
+  
+      interface artists {
+        name: string;
+        external_urls: url;
+        genres: string[];
+      }
+  
+      const rawArtists = await topArtistResponse.json();
+      const Artists: artists[] = [];
+      rawArtists.items.forEach((artist: artists) => {
+        let arr: {} | any = {};
+        arr["name"] = artist.name;
+        arr["spotify_url"] = artist.external_urls.spotify;
+        arr["genres"] = artist.genres.join(", ");
+  
+        Artists.push(arr);
+      });
+
+      const topTracksResponse = await fetch(
+        "https://api.spotify.com/v1/me/top/tracks?limit=10",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${
+              Token.length > 0 ? Token : getTokenFromUrl()
+            }`,
+          },
+        }
+      );
+  
+      const rawTopSongs = await topTracksResponse.json();
+  
+  
+      interface songs {
+        name: string;
+        artists: string[];
+      }
+  
+      const topSongs: songs[] = [];
+      rawTopSongs.items.forEach((song: songs) => {
+        let arr: {} | any = {};
+        let artists: string[] = [];
+  
+        arr["song_title"] = song.name;
+  
+        song.artists.forEach((artist: any) => {
+          artists.push(artist.name);
+        });
+  
+        arr["artist"] = artists.join(', ');
+  
+        topSongs.push(arr);
+      });
+      
 
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Analyse user's input or mood/feeling and create the perfect spotify search query to extract songs to create a playlist, depending on the user's mood or particaular artist or song they want to listen to. user input: ${mood}. Return only the searcy query words.`;
+      const prompt = `Analyse user's input for mood/feeling alongside their top artist and top songs provided and create the perfect spotify search query to extract songs to create a new playlist that aligns with user input provided, depending on the user's mood or particaular artist or song they want to listen to. user input: ${mood}. user's top artist: ${Artists}, user's top songs: ${topSongs}. Return only the searcy query words.`;
 
       const response = await model.generateContent(prompt);
 
