@@ -27,19 +27,20 @@ const App = () => {
   ];
   const api_key = import.meta.env.VITE_API_KEY;
 
-  setInterval(() => {
-    const refreshText = async () => {
-      const textGen = new GoogleGenerativeAI(api_key);
-      const model = textGen.getGenerativeModel({ model: "gemini-1.5-flash" });
-  
-      const prompt = `Suggest an input for user to enter into a textbox of an application that converts user's input into spotify playlist by analysing their input.`;
-  
-      const response = await model.generateContent(prompt);
-  
-      let text = response.response.text();
+  const refreshText = async () => {
+    const textGen = new GoogleGenerativeAI(api_key);
+    const model = textGen.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      setPlaceholder(text);
-    }
+    const prompt = `Suggest an input for user to enter into a textbox of an application that converts user's input into spotify playlist by analysing their input.`;
+
+    const response = await model.generateContent(prompt);
+
+    let text = response.response.text();
+
+    setPlaceholder(text);
+  }
+  setInterval(() => {
+    refreshText();
   }, 5000)
 
   const getTokenFromUrl = () => {
