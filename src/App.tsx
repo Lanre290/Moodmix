@@ -305,7 +305,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Analyse user's input for mood/feeling alongside their top artist and top songs provided and create the perfect spotify search query to extract songs to create a new playlist that aligns with user input provided, depending on the user's mood or particaular artist or song they want to listen to. user input: ${mood}. user's top artist: ${Artists}, user's top songs: ${topSongs}. Return only the searcy query words.`;
+      const prompt = `Analyze the user's input for mood or feeling, along with their top artists and songs provided, and create the ideal Spotify search query. The query should aim to find songs that align with the user's input, reflecting their mood or specific artist or song preferences. User input: ${mood}. Top artists: ${Artists}. Top songs: ${topSongs}. Return only the keywords for the Spotify search query.`;
 
       const response = await model.generateContent(prompt);
 
@@ -314,7 +314,7 @@ const App = () => {
 
       let keywords = response.response.text();
       let name = response_2.response.text();
-      // console.log(keywords, name);
+      console.log("keywords: ",  keywords);
       setPlaylistName(name);
 
       searchSongs(keywords, name);
