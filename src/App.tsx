@@ -229,14 +229,14 @@ const App = () => {
 
       const response = await model.generateContent(prompt);
 
-      const prompt_2 = `a song playlist has been created fro a user based on their moods: ${mood}, suggest a playlist name in just one string.`;
+      const prompt_2 = `a song playlist has been created for a user based on their moods: ${mood}, suggest a playlist name in just one string.`;
       const response_2 = await model.generateContent(prompt_2);
 
       let keywords = response.response.text();
       let name = response_2.response.text();
       setPlaylistName(name);
 
-      console.log(keywords);
+      console.log(keywords, "artists", JSON.stringify(Artists), "songs: ", JSON.stringify(topSongs));
 
       searchSongs(keywords, name);
 
