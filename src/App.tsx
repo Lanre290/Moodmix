@@ -3,7 +3,6 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaMusic, FaSadTear, FaSmile, FaSortDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
-import { getTopArtists } from "./api.js";
 
 const App = () => {
   const [mood, setMood] = useState<string>("");
@@ -47,7 +46,7 @@ const App = () => {
     const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${api_key}`,
+        Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
       },
     });
 
@@ -61,7 +60,7 @@ const App = () => {
     const response = await fetch("https://api.spotify.com/v1/me/top/tracks", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${api_key}`,
+        Authorization: `Bearer ${Token.length > 0 ? Token : getTokenFromUrl()}`,
       },
     });
 
@@ -195,7 +194,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Extract every mood or feeling, artist name and song title from user input to create a short spotify search query to create the perfect playlist. search query must be clean and only contain the searh query thereby it must not be too long: [lists of keywords]. ensure you add any artist's name included and suggest an artist's name if none is detected. User Input: ${mood}. I need just the query, no other words must be included!!!`;
+      const prompt = `Analyse user's input or mood/feeling and create the perfect spotify search query to extract songs to create a playlist, depending on the user's mood or particaular artist or song they want to listen to. user input: ${mood}. Return only the searcy query words.`;
 
       const response = await model.generateContent(prompt);
 
