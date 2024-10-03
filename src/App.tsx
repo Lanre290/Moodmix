@@ -231,10 +231,10 @@ const App = () => {
       // console.log(api_key);
 
       let topArtists = getTopArtists();
-      console.log(topArtists);
+      console.log(await topArtists);
 
       let topTracks = getTopTracks();
-      console.log(topTracks);
+      console.log(await topTracks);
 
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
