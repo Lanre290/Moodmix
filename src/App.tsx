@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FaMusic, FaSadTear, FaSmile, FaSortDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import spotifyLogo from "./assets/spotify.png";
+import { stringify } from "postcss";
 
 const App = () => {
   const [mood, setMood] = useState<string>("");
@@ -302,6 +303,7 @@ const App = () => {
       });
       
 
+      console.log("artists: ", JSON.stringify(Artists),"songs: ", JSON.stringify(topSongs))
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
