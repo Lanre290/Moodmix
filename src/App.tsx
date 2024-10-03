@@ -225,7 +225,7 @@ const App = () => {
                       User input: ${mood}
                       Top artists: ${JSON.stringify(Artists)}
                       Top songs: ${JSON.stringify(topSongs)}
-                      Return only keywords for a Spotify search query that aligns with the user's mood, make it very brief and include only necessary keywords without any extra word.`;
+                      Return only keywords for a Spotify search query that aligns with the user's mood, make it include only necessary keywords without any extra word.`;
 
       const response = await model.generateContent(prompt);
 
