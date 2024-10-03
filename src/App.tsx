@@ -152,7 +152,7 @@ const App = () => {
       setLoading(true);
 
       const topArtistResponse = await fetch(
-        "https://api.spotify.com/v1/me/top/artists?limit=12",
+        "https://api.spotify.com/v1/me/top/artists?limit=15",
         {
           method: "GET",
           headers: {
