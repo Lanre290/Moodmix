@@ -308,7 +308,7 @@ const App = () => {
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
       const prompt = `Analyze the user's mood and feelings along with their top artists and songs. 
-                      Consider the intensity of the mood and suggest a playlist name. 
+                      Consider the intensity of the mood,
                       If the mood input has various nuances (e.g., 'happy but tired'), capture those subtleties. 
                       Use synonyms, genre preferences, and current trends to curate relevant keywords. 
                       User input: ${mood}. 
