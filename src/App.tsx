@@ -254,8 +254,8 @@ const App = () => {
         genres: string[];
       }
   
-      const rawArtists = await topArtistResponse.json();
-      const Artists: artists[] = [];
+      let rawArtists = await topArtistResponse.json();
+      let Artists: artists[] = [];
       rawArtists.items.forEach((artist: artists) => {
         let arr: {} | any = {};
         arr["name"] = artist.name;
@@ -277,7 +277,7 @@ const App = () => {
         }
       );
   
-      const rawTopSongs = await topTracksResponse.json();
+      let rawTopSongs = await topTracksResponse.json();
   
   
       interface songs {
@@ -285,7 +285,7 @@ const App = () => {
         artists: string[];
       }
   
-      const topSongs: songs[] = [];
+      let topSongs: string = "";
       rawTopSongs.items.forEach((song: songs) => {
         let arr: {} | any = {};
         let artists: string[] = [];
@@ -305,7 +305,7 @@ const App = () => {
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-      const prompt = `Analyze the user's input for mood or feeling, along with their top artists and songs provided, and create the ideal Spotify search query. The query should aim to find songs that align with the user's input, reflecting their mood or specific artist or song preferences. User input: ${mood}. Top artists: ${Artists}. Top songs: ${topSongs}. Return only the keywords for the Spotify search query.`;
+      const prompt = `Analyze the user's input for mood or feeling, along with their top artists and songs provided, and create the ideal Spotify search query. The query should aim to find songs that align with the user's input, reflecting their mood or specific artist or song preferences. User input: ${mood}. Top artists: ${JSON.stringify(Artists)}. Top songs: ${JSON.stringify(topSongs)}. Return only the keywords for the Spotify search query.`;
 
       const response = await model.generateContent(prompt);
 
