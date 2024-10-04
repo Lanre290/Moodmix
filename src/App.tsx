@@ -215,7 +215,6 @@ const App = () => {
 
       const genAI = new GoogleGenerativeAI(api_key);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      console.log(mood, Artists, topSongs);
 
       const prompt = `Analyze the user's mood and feelings along with their top artists and songs.
                       Consider the intensity of the mood,
@@ -236,7 +235,6 @@ const App = () => {
       const response_2 = await model.generateContent(prompt_2);
 
       let keywords = response.response.text();
-      console.log(keywords);
       let name = response_2.response.text();
       setPlaylistName(name);
 
