@@ -223,7 +223,7 @@ const App = () => {
                       User input: ${mood}
                       Top artists: ${JSON.stringify(Artists)}
                       Top songs: ${JSON.stringify(topSongs)}
-                      Return only keywords for a Spotify search query that aligns with the user's mood, make it brief(only one string but not too short and not long) while priortizing the order of the keywords according to their relevance based on user top artist and song, if user requests for artists or genres that differ from their top artist and top songs, priortize finding new artist and genres to match user request, include only necessary keywords without any extra word. e.g:("Polo G", "positive vibes", "up-tempo")`;
+                      Return only keywords for a Spotify search query that aligns with the user's mood, make it brief(only one string but not too short and not long) while priortizing the order of the keywords according to their relevance based on user top artist and song but if user requests for artists or genres that differ from their top artist and top songs, highly priortize finding new artist and genres to match user request, include only necessary keywords without any extra word.
 
       const response = await model.generateContent(prompt);
 
