@@ -224,11 +224,10 @@ const App = () => {
                       User input: ${mood}.
                       Top artists: ${JSON.stringify(Artists)}.
                       Top songs: ${JSON.stringify(topSongs)}.
-                      extract every artist that the user mentions,
                       align user's mood with the kind of music they listen to based on their top songs and top artists and
                       if user request still differs entirely after critical and extensive evaluation from their top artists and top songs, highly priortize finding new artist and song to suit their input,
                       make sure you include at least one artist and one genre but priortise artist name over genre, it could be from user request or user's top artist and top songs if they didn't specify any artist,
-                      make it very brief into one search string or query and include only necessary keywords without any extra word!!!!. Return just one string with at least one artist's name.`
+                      make it very brief into one search string or query and include only necessary keywords without any extra word!!!!. Return just one string with every artist mentioned included.`
 
 
       const response = await model.generateContent(prompt);
