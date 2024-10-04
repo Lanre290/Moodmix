@@ -227,8 +227,8 @@ const App = () => {
                       Return only keywords for a Spotify search query that aligns with the user's mood,
                       align user's mood with the kind of music they listen to based on their top songs and top artists and
                       if user request still differs entirely after critical and extensive evaluation from their top artists and top songs, highly priortize finding new artist and song to suit their input,
-                      make sure you include at least one artist and one genre, it could be from user request or user's top artist and top songs if they didn't specify any,
-                      include only necessary keywords without any extra word.`
+                      make sure you include at least one artist and one genre, it could be from user request or user's top artist and top songs if they didn't specify any artist,
+                      make it brief into one search string or query and include only necessary keywords without any extra word!!!!.`
 
 
       const response = await model.generateContent(prompt);
