@@ -225,7 +225,8 @@ const App = () => {
                       Top artists: ${JSON.stringify(Artists)}.
                       Top songs: ${JSON.stringify(topSongs)}.
                       Return only keywords for a Spotify search query that aligns with the user's mood,
-                      if user request differs from their top artists and top songs, highly priortize finding new artist and song to suit their input
+                      align user's mood with the kind of music they listen to based on their top songs and top artists and
+                      if user request still differs entirely after critical evaluation from their top artists and top songs, highly priortize finding new artist and song to suit their input
                       include only necessary keywords without any extra word.`
 
 
