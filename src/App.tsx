@@ -150,6 +150,7 @@ const App = () => {
         throw new Error("You seem to be offline.");
       }
       setLoading(true);
+      console.log("started generating playlist");
 
       const topArtistResponse = await fetch(
         "https://api.spotify.com/v1/me/top/artists?limit=15",
@@ -191,6 +192,7 @@ const App = () => {
       );
 
       let rawTopSongs = await topTracksResponse.json();
+      console.log(rawTopSongs.items);
 
       interface songs {
         name: string;
